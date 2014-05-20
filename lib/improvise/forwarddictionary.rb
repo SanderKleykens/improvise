@@ -1,4 +1,5 @@
 require 'improvise/dictionary'
+require 'improvise/util/stringutils'
 
 module Improvise
     class ForwardDictionary < Dictionary
@@ -8,15 +9,13 @@ module Improvise
 
         def generate_word(length, root=nil)
             word = root || @tree.random_key
-            word = word.slice(0..(length - 1))
 
             while word.length < length do
                 suffix = @tree.random_value(word[[-@depth, 0].max..-1])
                 word += suffix || @tree.random_key
-                word = word.slice(0..(length - 1))
             end
 
-            word
+            Improvise::Util::StringUtils.truncate(word, length, omission: '')
         end
 
         def learn!(words)

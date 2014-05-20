@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
     s.name = 'improvise'
     s.version = Improvise::VERSION
     s.platform = Gem::Platform::RUBY
-    s.date = '2014-05-20'
+    s.date = '2014-05-21'
     s.authors = ['Sander Kleykens']
     s.email = ['sander@kleykens.com']
     s.homepage = 'http://github.com/SanderKleykens/improvise'
@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
         lib/improvise/io/dictionaryreader.rb
         lib/improvise/io/dictionarywriter.rb
         lib/improvise/io/io.rb
+        lib/improvise/util/stringutils.rb
         lib/improvise/version.rb
         spec/improvise/dictionary_spec.rb
         spec/improvise/dictionarytree_spec.rb
