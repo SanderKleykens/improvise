@@ -1,12 +1,10 @@
-require 'improvise/version'
-
 Gem::Specification.new do |s|
     s.specification_version = 2 if s.respond_to? :specification_version=
     s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
     s.rubygems_version = '1.3.5'
 
     s.name = 'improvise'
-    s.version = Improvise::VERSION
+    s.version = '0.2.0'
     s.platform = Gem::Platform::RUBY
     s.date = '2014-05-21'
     s.authors = ['Sander Kleykens']
