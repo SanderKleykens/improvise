@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+
+require 'gli'
+require 'json'
+require 'zlib'
+require 'improvise'
+
+include GLI::App
+
+program_desc 'Improvise generates random words by learning from existing text.'
+version Improvise::VERSION
+
+flag [:f, :format], :desc => 'The format of the dictionary (marshal or json)', :default_value => :marshal, :must_match => [ :marshal, :json ]
+switch [:g, :gzip], :desc => 'Indicates if the dictionary is in gzip format', :negatable => false
+
+desc 'Create or update a dictionary based on an input file'
+arg_name 'input dictionary'
+command :learn do |c|
+    c.flag [:d, :depth], :desc => 'The depth to use when building the dictionary', :default_value => 2, :type => Integer
+
+    c.action do |global_options, options, args|
+        if args.length < 1
+            help_now!('Input argument missing.')
+        elsif args.length < 2
+            help_now!('Dictionary argument missing.')
+        end
+
+        input_filename = args[0]
+        dictionary_filename = args[1]
+        depth = options[:depth]
+        format = global_options[:format]
+        gzip = global_options[:gzip]
+
+        input_file = File.open(input_filename, 'r')
+        words = input_file.read.split(/\W+/)
+        input_file.close()
+
+        if File.exists?(dictionary_filename)
+            dictionary = Improvise::IO::DictionaryReader.read(File.open(dictionary_filename, 'r'), format: format, gzip: gzip)
+        else
+            dictionary = Improvise::ForwardDictionary.new(depth)
+        end
+
+        dictionary.learn!(words)
+        Improvise::IO::DictionaryWriter.write(File.open(dictionary_filename, 'w'), dictionary, format: format, gzip: gzip)
+    end
+end
+
+desc 'Generate random words based on a dictionary'
+arg_name 'dictionary length'
+command :generate do |c|
+    c.flag [:w, :words], :desc => 'The number of words to generate', :default_value => 1, :type => Integer
+    c.flag [:r, :root], :desc => 'Root of the generated word', :type => String
+
+    c.action do |global_options, options, args|
+        if args.length < 1
+            help_now!('Dictionary argument missing.')
+        elsif args.length < 2
+            help_now!('Length argument missing.')
+        end
+
+        dictionary_filename = args[0]
+        words = options[:words]
+        root = options[:root]
+        format = global_options[:format]
+        gzip = global_options[:gzip]
+
+        begin
+            length = Integer(args[1])
+        rescue ArgumentError
+            exit_now!('Length argument is not an integer.')
+        end
+
+        dictionary = Improvise::IO::DictionaryReader.read(File.open(dictionary_filename, 'r'), format: format, gzip: gzip)
+        words.times { puts dictionary.generate_word(length, root) }
+    end
+end
+
+exit run(ARGV)
