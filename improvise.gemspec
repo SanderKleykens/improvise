@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
         lib/improvise/io/dictionaryreader.rb
         lib/improvise/io/dictionarywriter.rb
         lib/improvise/io/io.rb
+        lib/improvise/reversedictionary.rb
         lib/improvise/util/stringutils.rb
         lib/improvise/version.rb
         spec/improvise/dictionary_spec.rb
@@ -58,6 +59,7 @@ Gem::Specification.new do |s|
         spec/improvise/forwarddictionary_spec.rb
         spec/improvise/io/dictionaryreader_spec.rb
         spec/improvise/io/dictionarywriter_spec.rb
+        spec/improvise/reversedictionary_spec.rb
         spec/spec_helper.rb
   ]
     # = MANIFEST =

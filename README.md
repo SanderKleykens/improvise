@@ -27,10 +27,21 @@ require 'improvise'
 ```
 
 ### Learn
-Create a new dictionary with depth 3 and learn from a list of existing words:
+Create a new dictionary with depth 3:
 
 ```ruby
 dict = Improvise::ForwardDictionary.new(3)
+```
+
+Or create a reversed dictionary with depth 3:
+
+```ruby
+dict = Improvise::ReverseDictionary.new(3)
+```
+
+Learn from a list of existing words:
+
+```ruby
 dict.learn!([
     'ruby', 
     'sapphire', 

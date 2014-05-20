@@ -17,6 +17,7 @@ desc 'Create or update a dictionary based on an input file'
 arg_name 'input dictionary'
 command :learn do |c|
     c.flag [:d, :depth], :desc => 'The depth to use when building the dictionary', :default_value => 2, :type => Integer
+    c.switch [:r, :reverse], :desc => 'Build a reverse dictionary', :negatable => false
 
     c.action do |global_options, options, args|
         if args.length < 1
@@ -28,6 +29,7 @@ command :learn do |c|
         input_filename = args[0]
         dictionary_filename = args[1]
         depth = options[:depth]
+        reverse = options[:reverse]
         format = global_options[:format]
         gzip = global_options[:gzip]
 
@@ -38,7 +40,11 @@ command :learn do |c|
         if File.exists?(dictionary_filename)
             dictionary = Improvise::IO::DictionaryReader.read(File.open(dictionary_filename, 'r'), format: format, gzip: gzip)
         else
-            dictionary = Improvise::ForwardDictionary.new(depth)
+            if reverse
+                dictionary = Improvise::ReverseDictionary.new(depth)
+            else
+                dictionary = Improvise::ForwardDictionary.new(depth)
+            end
         end
 
         dictionary.learn!(words)
