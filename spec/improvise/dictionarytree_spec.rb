@@ -1,37 +1,37 @@
 require 'spec_helper'
 
 describe Improvise::DictionaryTree do
-    PREFIX = 'te'
-    SUFFIX = 's'
+    KEY = 'te'
+    VALUE = 's'
 
     before do
         @empty_tree = Improvise::DictionaryTree.new
     end
 
-    it "should return nil as random prefix if the tree is empty" do
-        expect(@empty_tree.random_prefix).to eq(nil)
+    it "should return nil as random key if the tree is empty" do
+        expect(@empty_tree.random_key).to eq(nil)
     end
 
-    it "should return nil as random suffix if the prefix hasn't been found" do
-        expect(@empty_tree.random_suffix('test')).to eq(nil)
+    it "should return nil as random value if the prefix hasn't been found" do
+        expect(@empty_tree.random_value('test')).to eq(nil)
     end
 
-    it "should return nil as random suffix if the prefix is nil" do
-        expect(@empty_tree.random_suffix(nil)).to eq(nil)
+    it "should return nil as random value if the prefix is nil" do
+        expect(@empty_tree.random_value(nil)).to eq(nil)
     end
 
-    it "should return '#{PREFIX}'" do
+    it "should return '#{KEY}'" do
         tree = Improvise::DictionaryTree.new
-        tree.add_entry!(PREFIX, SUFFIX)
+        tree.add_entry!(KEY, VALUE)
 
-        expect(tree.random_prefix).to eq(PREFIX)
+        expect(tree.random_key).to eq(KEY)
     end
 
-    it "should return '#{SUFFIX}'" do
+    it "should return '#{VALUE}'" do
         tree = Improvise::DictionaryTree.new
-        tree.add_entry!(PREFIX, SUFFIX)
+        tree.add_entry!(KEY, VALUE)
         tree.add_entry!('aa', 's')
 
-        expect(tree.random_suffix(PREFIX)).to eq(SUFFIX)
+        expect(tree.random_value(KEY)).to eq(VALUE)
     end
 end

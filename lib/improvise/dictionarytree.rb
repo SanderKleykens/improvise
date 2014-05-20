@@ -8,24 +8,24 @@ module Improvise
             @root = root || Tree::TreeNode.new('root')
         end
 
-        def add_entry!(prefix, suffix)
-            prefix_node = DictionaryTree.add_node!(@root, prefix)
-            prefix_node.content += 1
+        def add_entry!(key, value)
+            key_node = DictionaryTree.add_node!(@root, key)
+            key_node.content += 1
 
-            suffix_node = DictionaryTree.add_node!(prefix_node, suffix)
-            suffix_node.content += 1
+            value_node = DictionaryTree.add_node!(key_node, value)
+            value_node.content += 1
         end
 
-        def random_prefix
+        def random_key
             DictionaryTree.new_pickup(@root).pick
         end
 
-        def random_suffix(prefix)
-            if prefix.nil?
+        def random_value(key)
+            if key.nil?
                 return nil
             end
 
-            node = @root[prefix]
+            node = @root[key]
 
             if node.nil?
                 return nil
